@@ -11,11 +11,14 @@ public class MapGenerator : MonoBehaviour{
 
     public TerrainData terrainData;
     public NoiseData noiseData;
+    public EntityData entityData;
 
     [Range(0,6)]
     public int EditorPreviewLOD;
 
     public bool autoUpdate;
+
+    public bool spawnEntities;
 
     public TerrainType[] regions;
     static MapGenerator instance;

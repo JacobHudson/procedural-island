@@ -104,6 +104,10 @@ public class EndlessTerrain : MonoBehaviour
                 }
             }
 
+            if(mapGenerator.spawnEntities){
+                EntitySpawner.SpawnValidator(meshObject.transform);
+            }
+
             mapGenerator.RequestMapData(position, OnMapDataReceived);
         }
 
