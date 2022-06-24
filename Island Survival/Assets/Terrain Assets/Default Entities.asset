@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: Test Entities
   density: 0.1
+  yOffset: 0
   gameObjects:
-  - {fileID: 7155155497357465416, guid: 578198168dd3e934eb6de65c3abfd05d, type: 3}
-  - {fileID: 2709445362167198099, guid: 02328fe81ba01924b95c855807d779fd, type: 3}
-  - {fileID: 9113506171428743501, guid: 52ffc8f411045634aaace481a0290df5, type: 3}
+  - {fileID: 6417604870735936183, guid: 17cd97cc7c4455d4fb886beb0708188c, type: 3}

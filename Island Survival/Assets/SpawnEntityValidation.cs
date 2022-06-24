@@ -39,22 +39,47 @@ public class SpawnEntityValidation : MonoBehaviour
             GameObject objToSpawn = entityData.gameObjects[Random.Range(0, entityData.gameObjects.Length)]; // get random GO from list to spawn
             print(objToSpawn.name);
 
-            var entity = Instantiate(objToSpawn, Vector3.zero, Quaternion.identity, parentTerrain.transform);
+            // var groundPoint = new GameObject();
+            // groundPoint.transform.SetParent(parentTerrain.transform);
+            // groundPoint.transform.localPosition = validPositions[amountOfEntitiesToSpawn - 1];
+
+            var entity = Instantiate(objToSpawn, validPositions[amountOfEntitiesToSpawn - 1], Quaternion.identity, parentTerrain.transform);
             entity.transform.localPosition = validPositions[amountOfEntitiesToSpawn - 1];
+            //entity.transform.localPosition = new Vector3(entity.transform.localPosition.x, entity.transform.localPosition.y, entity.transform.localPosition.z);
+
+
+            //print(validPositions[amountOfEntitiesToSpawn - 1]);
+            //Destroy(groundPoint, 1f);
             
             amountOfEntitiesToSpawn--;
         }
     }
 
-    Vector3[] FindValidPosition(){
-        Vector3[] positions = new Vector3[amountOfEntitiesToSpawn];
+    Vector3[] FindValidPosition(){ // gets local postitions meeting criteria
+        Vector3[] positionsOnMesh = new Vector3[amountOfEntitiesToSpawn];
+        Vector3[] positionsOnMeshGrounded = new Vector3[positionsOnMesh.Length];
         for (int i = 0; i < amountOfEntitiesToSpawn; i++){
             var pos = GetRandomPointOnMesh(parentTerrain.GetComponent<MeshFilter>().sharedMesh);
-            positions[i] = pos;
+            positionsOnMesh[i] = pos;
         }
         
-        print($"Chunk, {parentTerrain.name + parentTerrain.GetInstanceID().ToString()}, has the calculated the positions: {positions}");
-        return positions;
+        for (int i = 0; i < positionsOnMesh.Length; i++){
+            var groundCheckObj = new GameObject();
+            groundCheckObj.transform.parent = parentTerrain.transform;
+            groundCheckObj.transform.position = new Vector3(positionsOnMesh[i].x, 50, positionsOnMesh[i].z);
+            
+            RaycastHit hit;
+            if(Physics.Raycast(groundCheckObj.transform.position, Vector3.down, out hit, Mathf.Infinity)){
+                positionsOnMeshGrounded[i] = hit.point;
+                //Debug.DrawLine(groundCheckObj.transform.position, hit.point, Color.green, 100f);
+            }
+
+            Destroy(groundCheckObj);
+        }
+
+        
+        print($"Chunk, {parentTerrain.name + parentTerrain.GetInstanceID().ToString()}, has the calculated the positions: {positionsOnMesh}");
+        return positionsOnMeshGrounded;
     }
 
     Vector3 GetRandomPointOnMesh(Mesh mesh)
