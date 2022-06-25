@@ -48,10 +48,38 @@ public class SpawnEntityValidation : MonoBehaviour
 
     Vector3[] FindValidPosition(){
         Vector3[] positions = new Vector3[amountOfEntitiesToSpawn];
-        for (int i = 0; i < amountOfEntitiesToSpawn; i++){
+        // for (int i = 0; i < amountOfEntitiesToSpawn; i++){
+        //     var pos = GetRandomPointOnMesh(parentTerrain.GetComponent<MeshFilter>().sharedMesh);
+        //     positions[i] = pos;
+        // }
+        
+        float minY = mapGenerator.entityData.minHeight * (mapGenerator.terrainData.meshHeightCurve.Evaluate(mapGenerator.entityData.minHeight) * mapGenerator.terrainData.meshHeightMultiplier) * 10;
+        float maxY = mapGenerator.entityData.maxHeight * (mapGenerator.terrainData.meshHeightCurve.Evaluate(mapGenerator.entityData.maxHeight) * mapGenerator.terrainData.meshHeightMultiplier) * 10;
+        print($"minY: {minY}, maxY: {maxY}");
+
+        int positionsToFind = positions.Length - 1;
+        while (positionsToFind > 0){
+            bool withinHeightRange = false;
+            // bool withinMinDistanceRange = false;
             var pos = GetRandomPointOnMesh(parentTerrain.GetComponent<MeshFilter>().sharedMesh);
-            positions[i] = pos;
+
+            if(pos.y > minY && pos.y < maxY){ // ensures that the entity is within the height range
+                withinHeightRange = true;
+            }
+
+            // for (int i = 0; i < positions.Length; i++){   
+            //     if(Vector3.Distance(positions[i], pos) > mapGenerator.entityData.minSeperationDistance * mapGenerator.terrainData.uniformScale * 2){
+            //         print(Vector3.Distance(positions[i], pos));
+            //         withinMinDistanceRange = true;
+            //     }
+            // }
+
+            if(withinHeightRange /*&& withinMinDistanceRange*/){
+                positions[positionsToFind] = pos;
+                positionsToFind--;
+            }
         }
+
         
         print($"Chunk, {parentTerrain.name + parentTerrain.GetInstanceID().ToString()}, has the calculated the positions: {positions}");
         return positions;
@@ -114,7 +142,6 @@ public class SpawnEntityValidation : MonoBehaviour
         {
             sizes[i] = .5f*Vector3.Cross(verts[tris[i*3 + 1]] - verts[tris[i*3]], verts[tris[i*3 + 2]] - verts[tris[i*3]]).magnitude;
         }
-        print(sizes);
         return sizes;
     }
 }

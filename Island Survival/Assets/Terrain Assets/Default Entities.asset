@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entityType: Test Entities
   density: 0.1
+  minHeight: 0.3
+  maxHeight: 0.4
+  minSeperationDistance: 4
   gameObjects:
   - {fileID: 2826710166192076741, guid: d37d3cd90e3274b49a21e5ecbd8863ba, type: 3}
