@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Default Entities
   m_EditorClassIdentifier: 
   entityType: Test Entities
-  density: 0.1
   minHeight: 0.3
   maxHeight: 0.4
   minSeperationDistance: 4
-  gameObjects:
-  - {fileID: 2826710166192076741, guid: d37d3cd90e3274b49a21e5ecbd8863ba, type: 3}
+  terrainObjects:
+  - {fileID: 11400000, guid: cf331324d9e5f6e43a85062ac41ca433, type: 2}
+  - {fileID: 11400000, guid: c4be1f2b3a307274f9e6c08350475bc9, type: 2}

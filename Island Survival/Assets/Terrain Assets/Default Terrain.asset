@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   uniformScale: 2.5
-  useFlatShading: 1
+  useFlatShading: 0
   useFalloff: 0
   meshHeightMultiplier: 36
   meshHeightCurve:
@@ -39,23 +39,23 @@ MonoBehaviour:
       inWeight: 0.08641349
       outWeight: 0.039716814
     - serializedVersion: 3
-      time: 0.45156053
-      value: 0.045780122
-      inSlope: -0.0912259
-      outSlope: -0.0912259
+      time: 0.45767656
+      value: 0.07374008
+      inSlope: 0.37374073
+      outSlope: 0.37374073
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.15645044
-      outWeight: 0.06217694
+      outWeight: 0.08963098
     - serializedVersion: 3
-      time: 0.77620447
-      value: 0.15625827
-      inSlope: 0.872669
-      outSlope: 0.872669
+      time: 0.76615155
+      value: 0.2462164
+      inSlope: 0.9575753
+      outSlope: 0.9575753
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.1437337
+      inWeight: 0.07380581
+      outWeight: 0.10898653
     - serializedVersion: 3
       time: 1
       value: 1

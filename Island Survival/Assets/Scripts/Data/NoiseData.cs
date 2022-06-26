@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu()]
+[CreateAssetMenu(fileName ="New Noise Data", menuName = "Terrain Generator/Data/Noise Data", order = 4)]
 public class NoiseData : UpdatableData
 {
     public Noise.NormalizeMode normalizeMode;
