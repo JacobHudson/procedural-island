@@ -31,8 +31,9 @@ public class SpawnEntityValidation : MonoBehaviour
     public IEnumerator SpawnEntities(EntityData entityData){
 
         for (int i = 0; i < entityData.terrainObjects.Length; i++){
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
             amountOfEntitiesToSpawn = Mathf.RoundToInt((entityData.terrainObjects[i].objectsPerChunk / 100) * MapGenerator.mapChunkSize); // finds amount of objects to spawn
+            int totalEntitiesToSpawn = amountOfEntitiesToSpawn;
             Vector3[] validPositions = FindValidPosition();
 
             while (amountOfEntitiesToSpawn > 0){
@@ -40,12 +41,14 @@ public class SpawnEntityValidation : MonoBehaviour
 
                 var entity = Instantiate(objToSpawn, Vector3.zero, Quaternion.identity, parentTerrain.transform);
                 entity.transform.localPosition = validPositions[amountOfEntitiesToSpawn - 1];
-                
+
                 amountOfEntitiesToSpawn--;
+                mapGenerator.spawnedEntityCount = totalEntitiesToSpawn - amountOfEntitiesToSpawn;
+                mapGenerator.currentObjectSpawningName = objToSpawn.name;
             }
         }
 
-
+        mapGenerator.chunksDoneSpawning++;
         Destroy(this.gameObject);
     }
 

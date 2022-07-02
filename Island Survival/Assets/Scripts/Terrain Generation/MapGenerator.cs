@@ -21,16 +21,25 @@ public class MapGenerator : MonoBehaviour{
     public bool spawnEntities;
 
     public TerrainType[] regions;
-    static MapGenerator instance;
+    public static MapGenerator instance;
 
     float[,] falloffMap;
     bool falloffMapGenerated;
+
+    [Header("Chunk Spawning Stats")]
+    public int chunksDoneSpawning;
+    public int initialChunksSpawned = 109;
+    public int initialChunkSpawnProgress;
+    public bool initialEntitiesSpawned = false;
+    public string currentObjectSpawningName;
+    public int spawnedEntityCount;
     
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
 
     void Awake(){
         GenerateFalloffMap();
+        instance = this;
     }
 
     void OnValuesUpdated(){
@@ -124,6 +133,15 @@ public class MapGenerator : MonoBehaviour{
                 threadInfo.callback(threadInfo.parameter);
             }
         }
+
+        if(!initialEntitiesSpawned){
+            initialChunkSpawnProgress = Mathf.RoundToInt((chunksDoneSpawning / initialChunksSpawned) * 100f);
+            if(chunksDoneSpawning >= initialChunksSpawned){
+                initialEntitiesSpawned = true;
+            }
+            //print($"Chunks Spawned Percent: {chunksDoneSpawning / initialChunksSpawned * 100}%");
+        }
+
     }
 
     MapData GenerateMapData(Vector2 center){
