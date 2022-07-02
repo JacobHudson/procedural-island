@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8ad3eac43bfcfd42901bc717fad09c2, type: 3}
+  m_Name: LargeRocks
+  m_EditorClassIdentifier: 
+  gameObjects:
+  - {fileID: 3668793403922172286, guid: 44bf1d2ee8e1e734192be2b7519e4c3a, type: 3}
+  - {fileID: 8681007980954193366, guid: b46570979ae659c4c9796459f72f560f, type: 3}
+  - {fileID: 8132926076102625533, guid: d78b7e2572d512e4cbfd36ea4b571560, type: 3}
+  - {fileID: 2617803026531498660, guid: 4fe731d32bf23b94e99ddafcf3b3416b, type: 3}
+  - {fileID: 7894834976970208931, guid: ccddea772d4096c4baa3c3e9d663e4da, type: 3}
+  objectsPerChunk: 10

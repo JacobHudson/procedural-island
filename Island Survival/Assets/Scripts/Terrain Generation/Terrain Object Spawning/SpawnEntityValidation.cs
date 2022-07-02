@@ -14,7 +14,7 @@ public class SpawnEntityValidation : MonoBehaviour
     void Awake(){
         mapGenerator = FindObjectOfType<MapGenerator>();
 
-        var obj = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        var obj = GameObject.CreatePrimitive(PrimitiveType.Cube);
         obj.name = "Validator";
         obj.transform.parent = validator.transform;
         obj.transform.localPosition = Vector3.zero;
@@ -37,7 +37,6 @@ public class SpawnEntityValidation : MonoBehaviour
 
             while (amountOfEntitiesToSpawn > 0){
                 GameObject objToSpawn = entityData.terrainObjects[i].gameObjects[Random.Range(0, entityData.terrainObjects[i].gameObjects.Length)]; // get random GO from list to spawn
-                print(objToSpawn.name);
 
                 var entity = Instantiate(objToSpawn, Vector3.zero, Quaternion.identity, parentTerrain.transform);
                 entity.transform.localPosition = validPositions[amountOfEntitiesToSpawn - 1];
@@ -55,8 +54,6 @@ public class SpawnEntityValidation : MonoBehaviour
         
         float minY = mapGenerator.entityData.minHeight * (mapGenerator.terrainData.meshHeightCurve.Evaluate(mapGenerator.entityData.minHeight) * mapGenerator.terrainData.meshHeightMultiplier) * 10;
         float maxY = mapGenerator.entityData.maxHeight * (mapGenerator.terrainData.meshHeightCurve.Evaluate(mapGenerator.entityData.maxHeight) * mapGenerator.terrainData.meshHeightMultiplier) * 10;
-        print($"minY: {minY}, maxY: {maxY}");
-
         int positionsToFind = positions.Length;
         while (positionsToFind > 0){
             bool withinHeightRange = false;
