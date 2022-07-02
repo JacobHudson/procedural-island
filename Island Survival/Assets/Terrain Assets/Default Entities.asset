@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9ec14f4c2e2ee948aa999a9cb90b729, type: 3}
+  m_Name: Default Entities
+  m_EditorClassIdentifier: 
+  entityType: Test Entities
+  minHeight: 0.3
+  maxHeight: 0.4
+  minSeperationDistance: 4
+  terrainObjects:
+  - {fileID: 11400000, guid: cf331324d9e5f6e43a85062ac41ca433, type: 2}
+  - {fileID: 11400000, guid: c4be1f2b3a307274f9e6c08350475bc9, type: 2}
