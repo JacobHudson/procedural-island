@@ -45,6 +45,7 @@ public class SpawnEntityValidation : MonoBehaviour
             }
         }
 
+
         Destroy(this.gameObject);
     }
 
