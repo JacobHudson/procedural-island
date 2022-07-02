@@ -77,6 +77,7 @@ public class EndlessTerrain : MonoBehaviour
         MapData mapData;
         bool mapDataRecieved;
         int previousLODIndex = -1;
+        bool entitiesSpawned;
 
         public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material){
             this.detailLevels = detailLevels;
@@ -106,6 +107,7 @@ public class EndlessTerrain : MonoBehaviour
 
             if(mapGenerator.spawnEntities){
                 EntitySpawner.SpawnValidator(meshObject.transform);
+                entitiesSpawned = true;
             }
 
             mapGenerator.RequestMapData(position, OnMapDataReceived);
