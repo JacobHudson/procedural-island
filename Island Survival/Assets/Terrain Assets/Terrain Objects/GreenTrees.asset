@@ -15,4 +15,5 @@ MonoBehaviour:
   gameObjects:
   - {fileID: 7025146919174000140, guid: 85b2f9a82ec2d244db806fb6dba5c524, type: 3}
   - {fileID: 2477335762459862523, guid: a2def1d3678df0d47b94ece9ab790176, type: 3}
+  seed: 4
   objectsPerChunk: 40

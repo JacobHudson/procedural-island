@@ -18,7 +18,6 @@ public class SpawnEntityValidation : MonoBehaviour
         obj.name = "Validator";
         obj.transform.parent = validator.transform;
         obj.transform.localPosition = Vector3.zero;
-        obj.GetComponent<Renderer>().material.color = Random.ColorHSV(0,1,0,1);
 
         StartCoroutine(SpawnEntities(mapGenerator.entityData));
     }
@@ -29,12 +28,12 @@ public class SpawnEntityValidation : MonoBehaviour
     }
 
     public IEnumerator SpawnEntities(EntityData entityData){
+        yield return new WaitForSeconds(0.25f); // waits for the map generator to finish generating the map
 
         for (int i = 0; i < entityData.terrainObjects.Length; i++){
-            yield return new WaitForSeconds(0.3f);
             amountOfEntitiesToSpawn = Mathf.RoundToInt((entityData.terrainObjects[i].objectsPerChunk / 100) * MapGenerator.mapChunkSize); // finds amount of objects to spawn
             int totalEntitiesToSpawn = amountOfEntitiesToSpawn;
-            Vector3[] validPositions = FindValidPosition();
+            Vector3[] validPositions = FindValidPosition(mapGenerator.entityData.terrainObjects[i].seed);
 
             while (amountOfEntitiesToSpawn > 0){
                 GameObject objToSpawn = entityData.terrainObjects[i].gameObjects[Random.Range(0, entityData.terrainObjects[i].gameObjects.Length)]; // get random GO from list to spawn
@@ -42,9 +41,9 @@ public class SpawnEntityValidation : MonoBehaviour
                 var entity = Instantiate(objToSpawn, Vector3.zero, Quaternion.identity, parentTerrain.transform);
                 entity.transform.localPosition = validPositions[amountOfEntitiesToSpawn - 1];
 
-                amountOfEntitiesToSpawn--;
                 mapGenerator.spawnedEntityCount = totalEntitiesToSpawn - amountOfEntitiesToSpawn;
                 mapGenerator.currentObjectSpawningName = objToSpawn.name;
+                amountOfEntitiesToSpawn--;
             }
         }
 
@@ -52,16 +51,17 @@ public class SpawnEntityValidation : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    Vector3[] FindValidPosition(){
+    Vector3[] FindValidPosition(int seed){
         Vector3[] positions = new Vector3[amountOfEntitiesToSpawn];
         
         float minY = mapGenerator.entityData.minHeight * (mapGenerator.terrainData.meshHeightCurve.Evaluate(mapGenerator.entityData.minHeight) * mapGenerator.terrainData.meshHeightMultiplier) * 10;
         float maxY = mapGenerator.entityData.maxHeight * (mapGenerator.terrainData.meshHeightCurve.Evaluate(mapGenerator.entityData.maxHeight) * mapGenerator.terrainData.meshHeightMultiplier) * 10;
         int positionsToFind = positions.Length;
+        System.Random rand = new System.Random(seed);
         while (positionsToFind > 0){
             bool withinHeightRange = false;
             // bool withinMinDistanceRange = false;
-            var pos = GetRandomPointOnMesh(parentTerrain.GetComponent<MeshFilter>().sharedMesh);
+            var pos = GetRandomPointOnMesh(parentTerrain.GetComponent<MeshFilter>().sharedMesh, rand.NextDouble());
 
             if(pos.y > minY && pos.y < maxY){ // ensures that the entity is within the height range
                 withinHeightRange = true;
@@ -83,12 +83,13 @@ public class SpawnEntityValidation : MonoBehaviour
         return positions;
     }
 
-    Vector3 GetRandomPointOnMesh(Mesh mesh)
+    Vector3 GetRandomPointOnMesh(Mesh mesh, double random)
     {
         //if you're repeatedly doing this on a single mesh, you'll likely want to cache cumulativeSizes and total
         float[] sizes = GetTriSizes(mesh.triangles, mesh.vertices);
         float[] cumulativeSizes = new float[sizes.Length];
         float total = 0;
+
 
         for (int i = 0; i < sizes.Length; i++)
         {
@@ -97,8 +98,7 @@ public class SpawnEntityValidation : MonoBehaviour
         }
 
         //so everything above this point wants to be factored out
-
-        float randomsample = Random.value* total;
+        float randomsample = (float)random* total;
 
         int triIndex = -1;
         
@@ -119,8 +119,8 @@ public class SpawnEntityValidation : MonoBehaviour
 
         //generate random barycentric coordinates
 
-        float r = Random.value;
-        float s = Random.value;
+        float r = (float)random;
+        float s = (float)random;
 
         if(r + s >=1)
         {

@@ -13,4 +13,7 @@ public class ButtonManager : MonoBehaviour
     public void Play(){
         gameManager.LoadGame();
     }
+    public void Quit(){
+        Application.Quit();
+    }
 }
