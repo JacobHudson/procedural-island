@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public static class MeshGenerator{
-
     public static MeshData GenerateTerrainMesh(float[,] heightMap, float heightMultiplier, AnimationCurve _heightCurve, int levelOfDetail, bool useFlatShading){
         AnimationCurve heightCurve = new AnimationCurve(_heightCurve.keys);
 
@@ -61,7 +60,7 @@ public static class MeshGenerator{
             }
         }
 
-        meshData.Finalize(); // rusn on seperate thread instead of main
+        meshData.FinalizeMesh(); // runs on seperate thread instead of main
 
         return meshData;
     }
@@ -163,7 +162,7 @@ public class MeshData{
         return Vector3.Cross(sideAB, sideAC).normalized;
     }
 
-    public void Finalize(){
+    public void FinalizeMesh(){
         if(useFlatShading){
             FlatShading();
         }else{
@@ -196,10 +195,9 @@ public class MeshData{
         mesh.uv = uvs;
         if(useFlatShading){
             mesh.RecalculateNormals();
-        } else{
+        }else {
             mesh.normals = bakedNormals;
         }
         return mesh;
     }
-
 }

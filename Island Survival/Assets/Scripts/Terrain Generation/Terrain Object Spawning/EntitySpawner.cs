@@ -10,6 +10,5 @@ public class EntitySpawner : MonoBehaviour{
 
         SpawnEntityValidation spawnEntityValidation = validator.AddComponent<SpawnEntityValidation>();
         spawnEntityValidation.PassDataForEntitySpawning(validator, transform.gameObject);
-
     }
 }

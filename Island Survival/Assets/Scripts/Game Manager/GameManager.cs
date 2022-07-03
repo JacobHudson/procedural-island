@@ -11,6 +11,19 @@ public class GameManager : MonoBehaviour
     public GameObject LoadingScreen;
     public Slider loadingBar;
     public TMP_Text loadingText;
+
+    [Header("Map Generation Datasets To Use")]
+    public EntityData entityData;
+    public NoiseData noiseData;
+
+    [Header("Map Generation Default Settings")]
+    public NoiseData DEFAULT_NOISE_DATA;
+    public EntityData DEFAULT_ENTITY_DATA;
+
+    [Header("Map Generation Custom Settings")]
+    public NoiseData CUSTOM_NOISE_DATA;
+    public EntityData CUSTOM_ENTITY_DATA;
+
     MapGenerator mapGenerator;
 
     void Awake(){

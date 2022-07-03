@@ -9,8 +9,6 @@ public class SpawnEntityValidation : MonoBehaviour
     static MapGenerator mapGenerator;
     int amountOfEntitiesToSpawn;
 
-    private Vector3 randomPoint;
-
     void Awake(){
         mapGenerator = FindObjectOfType<MapGenerator>();
 
@@ -33,13 +31,15 @@ public class SpawnEntityValidation : MonoBehaviour
         for (int i = 0; i < entityData.terrainObjects.Length; i++){
             amountOfEntitiesToSpawn = Mathf.RoundToInt((entityData.terrainObjects[i].objectsPerChunk / 100) * MapGenerator.mapChunkSize); // finds amount of objects to spawn
             int totalEntitiesToSpawn = amountOfEntitiesToSpawn;
-            Vector3[] validPositions = FindValidPosition(mapGenerator.entityData.terrainObjects[i].seed);
+            Vector3[] validPositions = FindValidPosition(entityData.seed * (i+2));
+
+            System.Random randForObject = new System.Random(entityData.seed * (i+1));
 
             while (amountOfEntitiesToSpawn > 0){
-                GameObject objToSpawn = entityData.terrainObjects[i].gameObjects[Random.Range(0, entityData.terrainObjects[i].gameObjects.Length)]; // get random GO from list to spawn
+                GameObject objToSpawn = entityData.terrainObjects[i].gameObjects[randForObject.Next(0, entityData.terrainObjects[i].gameObjects.Length)]; // get random GO from list to spawn
 
                 var entity = Instantiate(objToSpawn, Vector3.zero, Quaternion.identity, parentTerrain.transform);
-                entity.transform.localPosition = validPositions[amountOfEntitiesToSpawn - 1];
+                entity.transform.localPosition = new Vector3(validPositions[amountOfEntitiesToSpawn - 1].x, validPositions[amountOfEntitiesToSpawn - 1].y - entityData.terrainObjects[i].yOffset, validPositions[amountOfEntitiesToSpawn - 1].z); // set position of entity
 
                 mapGenerator.spawnedEntityCount = totalEntitiesToSpawn - amountOfEntitiesToSpawn;
                 mapGenerator.currentObjectSpawningName = objToSpawn.name;
@@ -57,24 +57,17 @@ public class SpawnEntityValidation : MonoBehaviour
         float minY = mapGenerator.entityData.minHeight * (mapGenerator.terrainData.meshHeightCurve.Evaluate(mapGenerator.entityData.minHeight) * mapGenerator.terrainData.meshHeightMultiplier) * 10;
         float maxY = mapGenerator.entityData.maxHeight * (mapGenerator.terrainData.meshHeightCurve.Evaluate(mapGenerator.entityData.maxHeight) * mapGenerator.terrainData.meshHeightMultiplier) * 10;
         int positionsToFind = positions.Length;
-        System.Random rand = new System.Random(seed);
+        System.Random randForPosition = new System.Random(seed);
         while (positionsToFind > 0){
             bool withinHeightRange = false;
             // bool withinMinDistanceRange = false;
-            var pos = GetRandomPointOnMesh(parentTerrain.GetComponent<MeshFilter>().sharedMesh, rand.NextDouble());
+            var pos = GetRandomPointOnMesh(parentTerrain.GetComponent<MeshFilter>().sharedMesh, randForPosition.NextDouble());
 
             if(pos.y > minY && pos.y < maxY){ // ensures that the entity is within the height range
                 withinHeightRange = true;
             }
 
-            // for (int i = 0; i < positions.Length; i++){   
-            //     if(Vector3.Distance(positions[i], pos) > mapGenerator.entityData.minSeperationDistance * mapGenerator.terrainData.uniformScale * 2){
-            //         print(Vector3.Distance(positions[i], pos));
-            //         withinMinDistanceRange = true;
-            //     }
-            // }
-
-            if(withinHeightRange /*&& withinMinDistanceRange*/){
+            if(withinHeightRange){
                 positions[positionsToFind - 1] = pos;
                 positionsToFind--;
             }
@@ -85,7 +78,6 @@ public class SpawnEntityValidation : MonoBehaviour
 
     Vector3 GetRandomPointOnMesh(Mesh mesh, double random)
     {
-        //if you're repeatedly doing this on a single mesh, you'll likely want to cache cumulativeSizes and total
         float[] sizes = GetTriSizes(mesh.triangles, mesh.vertices);
         float[] cumulativeSizes = new float[sizes.Length];
         float total = 0;
@@ -97,7 +89,6 @@ public class SpawnEntityValidation : MonoBehaviour
             cumulativeSizes[i] = total;
         }
 
-        //so everything above this point wants to be factored out
         float randomsample = (float)random* total;
 
         int triIndex = -1;

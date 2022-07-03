@@ -40,6 +40,10 @@ public class MapGenerator : MonoBehaviour{
     void Awake(){
         GenerateFalloffMap();
         instance = this;
+        if(GameManager.instance){
+            noiseData = GameManager.instance.noiseData;
+            entityData = GameManager.instance.entityData;
+        }
     }
 
     void OnValuesUpdated(){
@@ -139,7 +143,6 @@ public class MapGenerator : MonoBehaviour{
             if(chunksDoneSpawning >= initialChunksSpawned){
                 initialEntitiesSpawned = true;
             }
-            //print($"Chunks Spawned Percent: {chunksDoneSpawning / initialChunksSpawned * 100}%");
         }
 
     }
@@ -148,7 +151,6 @@ public class MapGenerator : MonoBehaviour{
         GenerateFalloffMap();
 
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.persistance, noiseData.lacunarity, center + noiseData.offset, noiseData.normalizeMode);
-
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
 
         for (int y = 0; y < mapChunkSize + 2; y++){
@@ -167,7 +169,6 @@ public class MapGenerator : MonoBehaviour{
                         }
                     }
                 }
-                
             }
         }
 

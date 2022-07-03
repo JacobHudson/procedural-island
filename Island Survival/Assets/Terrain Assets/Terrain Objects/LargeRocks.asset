@@ -18,5 +18,5 @@ MonoBehaviour:
   - {fileID: 8132926076102625533, guid: d78b7e2572d512e4cbfd36ea4b571560, type: 3}
   - {fileID: 2617803026531498660, guid: 4fe731d32bf23b94e99ddafcf3b3416b, type: 3}
   - {fileID: 7894834976970208931, guid: ccddea772d4096c4baa3c3e9d663e4da, type: 3}
-  seed: 8
+  yOffset: 0
   objectsPerChunk: 20

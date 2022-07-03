@@ -25,5 +25,4 @@ public static class FalloffGenerator{
 
         return Mathf.Pow(value, a) / ((Mathf.Pow(value, a) + Mathf.Pow(b - b * value, a))); // equation for a curve that has a small gradient
     }
-
 }

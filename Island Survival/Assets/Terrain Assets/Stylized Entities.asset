@@ -16,6 +16,7 @@ MonoBehaviour:
   minHeight: 0.3
   maxHeight: 0.4
   minSeperationDistance: 4
+  seed: 83
   terrainObjects:
   - {fileID: 11400000, guid: 533242682c4f8384a8a2842b4381f430, type: 2}
   - {fileID: 11400000, guid: e86ee6448da7122459e52b6feaead84e, type: 2}

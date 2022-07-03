@@ -8,6 +8,7 @@ public class EntityData : ScriptableObject{
     public float minHeight;
     public float maxHeight;
     public float minSeperationDistance;
+    public int seed;
     // [Range(0,1)] public float density;
     // public GameObject[] gameObjects;
     public terrainObject[] terrainObjects;
