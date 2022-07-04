@@ -21,16 +21,29 @@ public class MapGenerator : MonoBehaviour{
     public bool spawnEntities;
 
     public TerrainType[] regions;
-    static MapGenerator instance;
+    public static MapGenerator instance;
 
     float[,] falloffMap;
     bool falloffMapGenerated;
+
+    [Header("Chunk Spawning Stats")]
+    public int chunksDoneSpawning;
+    public int initialChunksSpawned = 109;
+    public int initialChunkSpawnProgress;
+    public bool initialEntitiesSpawned = false;
+    public string currentObjectSpawningName;
+    public int spawnedEntityCount;
     
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
 
     void Awake(){
         GenerateFalloffMap();
+        instance = this;
+        if(GameManager.instance){
+            noiseData = GameManager.instance.noiseData;
+            entityData = GameManager.instance.entityData;
+        }
     }
 
     void OnValuesUpdated(){
@@ -124,13 +137,20 @@ public class MapGenerator : MonoBehaviour{
                 threadInfo.callback(threadInfo.parameter);
             }
         }
+
+        if(!initialEntitiesSpawned){
+            initialChunkSpawnProgress = Mathf.RoundToInt((chunksDoneSpawning / initialChunksSpawned) * 100f);
+            if(chunksDoneSpawning >= initialChunksSpawned){
+                initialEntitiesSpawned = true;
+            }
+        }
+
     }
 
     MapData GenerateMapData(Vector2 center){
         GenerateFalloffMap();
 
         float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, noiseData.seed, noiseData.noiseScale, noiseData.octaves, noiseData.persistance, noiseData.lacunarity, center + noiseData.offset, noiseData.normalizeMode);
-
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
 
         for (int y = 0; y < mapChunkSize + 2; y++){
@@ -149,7 +169,6 @@ public class MapGenerator : MonoBehaviour{
                         }
                     }
                 }
-                
             }
         }
 

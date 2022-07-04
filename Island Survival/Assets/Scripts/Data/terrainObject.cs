@@ -5,5 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="New Terrain Object",menuName = "Terrain Generator/Data/Terrain Object", order = 1)]
 public class terrainObject : ScriptableObject{
     public GameObject[] gameObjects;
+    public float yOffset;
     [Range(0,100)] public float objectsPerChunk;
 }
